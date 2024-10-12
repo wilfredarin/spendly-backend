@@ -7,6 +7,7 @@ import { connectToDb } from "./config/database.js";
 
 import authRouter from "./routes/auth.js"
 import expenseRouter from "./routes/expense.js"
+import analyticsRouter from "./routes/analytics.js"
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -14,6 +15,7 @@ app.use(cookieParser());
 
 app.use("/",authRouter)
 app.use("/",expenseRouter)
+app.use("/",analyticsRouter)
 app.use("/",(req,res)=>{
     res.send("err")});
 

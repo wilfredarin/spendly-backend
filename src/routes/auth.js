@@ -1,6 +1,6 @@
 import express from "express"
 import  {isValidUserProfileData,isValidUserProfileUpdate}  from "../utils/validation.js";
-import loadTags from "../utils/userTags.js";
+import {filterTags,userTags} from "../utils/userTags.js";
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -15,7 +15,7 @@ router.post("/api/auth/register",async(req,res)=>{
         const {name,phone,email,password} = req.body;
         const hashedPassword = await bcrypt.hash(password,10);
         const user = new User({name,email,phone,password:hashedPassword});
-        user.userTags = loadTags;
+        user.userTags = userTags;
         const data = await user.save();
         res.json({message:"User Added",data:data})
     }catch(err){
@@ -81,17 +81,14 @@ router.put("/api/auth/:action/tags",userAuth,async(req,res)=>{
         const user= req.user;
         const action = req.params.action;
         if (action!="add" && action!="remove"){
-            console.log(action)
             throw new Error("Invalid Action")
         }
         if(action=="add"){
             req.body.data.forEach(i=>{
-                if(! user.userTags.includes(i)){
-                    user.userTags.push(i);
+                if(!user.userTags.includes(i.toLowerCase())){
+                    user.userTags.push(i.toLowerCase());
                 }
-            });
-            
-            
+            })
         }else{
             req.body.data.forEach(i=>{
                 if(user.userTags.includes(i)){
@@ -104,8 +101,6 @@ router.put("/api/auth/:action/tags",userAuth,async(req,res)=>{
     }catch(err){
         res.status(400).json({message:"Error while updating tags ",erorr:err.message})
     }
-    
-
 })
 
 export default router;
