@@ -11,3 +11,7 @@ export const isValidUserProfileUpdate = (req)=>{
     return a;
 }
 
+export const isValidExpenseData = (req)=>{
+    const reqFields = ["amount","comment"]
+    return reqFields.every(e=>Object.keys(req.body).includes(e));
+}
