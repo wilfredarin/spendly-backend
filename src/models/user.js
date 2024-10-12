@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
     },
     userTags:{
         type:[String],
+        lowercase:true
     },
  
 },

@@ -76,4 +76,36 @@ router.put("/api/auth/profile",userAuth,async(req,res)=>{
     }
 })
 
+router.put("/api/auth/:action/tags",userAuth,async(req,res)=>{
+    try{
+        const user= req.user;
+        const action = req.params.action;
+        if (action!="add" && action!="remove"){
+            console.log(action)
+            throw new Error("Invalid Action")
+        }
+        if(action=="add"){
+            req.body.data.forEach(i=>{
+                if(! user.userTags.includes(i)){
+                    user.userTags.push(i);
+                }
+            });
+            
+            
+        }else{
+            req.body.data.forEach(i=>{
+                if(user.userTags.includes(i)){
+                    user.userTags.remove(i);
+                }
+            }); 
+        }
+        const data = await user.save();
+        res.json({message:"tags updated successfully!",data:data.userTags})
+    }catch(err){
+        res.status(400).json({message:"Error while updating tags ",erorr:err.message})
+    }
+    
+
+})
+
 export default router;
