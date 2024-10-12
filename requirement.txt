@@ -1,0 +1,38 @@
+1. User Authentication and Profile Management
+    1.1 User Registration
+        POST /api/auth/register
+    1.2 User Login
+        POST /api/auth/login
+    1.3 Get User Profile
+        GET /api/user/profile
+    1.4 Update User Profile
+        PUT /api/user/profile
+
+2. Expense Management
+    2.1 Add Expense
+        POST /api/expenses
+    2.2 Get Expenses for a Month
+        GET /api/expenses?month=2024-09
+    2.3 Get Expense Details
+        GET /api/expenses/
+    2.4 Update an Expense
+        PUT /api/expenses/
+    2.5 Delete an Expense
+        DELETE /api/expenses/
+    2.6 Download Monthly Expenses as PDF
+        GET /api/expenses/pdf
+
+3. Notifications and Budget Limits
+
+4. Analytics and Reporting
+    5.1 Get Monthly Expense Summary
+        GET /api/analytics/summary?month=2024-09
+    5.2 Get Expense Trends
+        GET /api/analytics/trends
+
+5. Miscellaneous
+    6.1 Get All Tags
+        GET /api/tags
+        Description: Fetches all tags available for expenses (like "family", "self", "medical", etc.).
+    6.2 Search Expenses
+        GET /api/expenses/search?q=grocery
