@@ -29,17 +29,16 @@ router.get('/:month',async(req,res)=>{
 
         expenses.forEach(expense=>{
             doc.moveDown().
-            fontSize(12).
-            text(`Amount: ${expense.amount}`);
+            fontSize(12).text(`Date: ${expense.date.toDateString()}`);
+            doc.text(`Amount: ${expense.amount}`);
             doc.text(`Comment: ${expense.comment}`);
             doc.text(`Tags: ${expense.tags.join(" ,")}`);
-            doc.text(`Date: ${expense.date.toDateString()}`);
+            
         });
 
-        await doc.end();
+        doc.end();
 
-
-        await doc.on('finish',function(){
+        doc.on('finish',function(){
             res.download(filePath, fileName, function(err) {
                 if (err) {
                   console.log(err);

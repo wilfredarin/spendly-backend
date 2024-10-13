@@ -1,2 +1,26 @@
+Challenges List:
 one challenges coming up with the idea of how to have pre loaded options of 
 tags and also gvie theuser the ability to have more
+
+
+
+API List:
+
+POST: api/auth/register
+POST: api/auth/login
+GET: api/auth/profile
+PUT: api/auth/profile
+PUT: api/auth/add/tags
+
+POST: api/expense
+GET:  api/expense?month="2024-10-01"
+PUT: api/expense/:expense_id
+DELETE: api/expense/:expense_id
+
+GET: api/analytics/summary/?month="2024-10-01"
+GET: api/analytics/trends
+
+GET: api/download/trends
+
+POST: api/otp/reset-password
+POST: api/otp/verify-otp

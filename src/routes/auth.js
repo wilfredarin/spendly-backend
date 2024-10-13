@@ -38,7 +38,7 @@ router.post("/login",async(req,res)=>{
         if(!isPasswordValid){
             throw new Error("Invalid Creds!")
         }
-        const token =  jwt.sign({_id:user._id},"SECRET");
+        const token =  jwt.sign({_id:user._id},process.env.JWT_SECRET);
         res.cookie("token",token);
         res.json({message:"Logged in succefully!",user})
     }catch(err){
@@ -84,13 +84,13 @@ router.put("/:action/tags",userAuth,async(req,res)=>{
             throw new Error("Invalid Action")
         }
         if(action=="add"){
-            req.body.data.forEach(i=>{
+            req.body.tags.forEach(i=>{
                 if(!user.userTags.includes(i.toLowerCase())){
                     user.userTags.push(i.toLowerCase());
                 }
             })
         }else{
-            req.body.data.forEach(i=>{
+            req.body.tags.forEach(i=>{
                 if(user.userTags.includes(i)){
                     user.userTags.remove(i);
                 }
