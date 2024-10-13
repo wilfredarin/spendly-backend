@@ -4,9 +4,10 @@ import userAuth from "../middleware/auth.js";
 import express from "express";
 import {userTags,filterTags} from "../utils/userTags.js"
 import {isValidExpenseData} from "../utils/validation.js"
+import { getDates } from "../utils/getDates.js";
 const router = express.Router();
 
-router.post("/api/expense",userAuth,async(req,res)=>{
+router.post("/",userAuth,async(req,res)=>{
     try{
         const user = req.user;
         if(!isValidExpenseData(req)){
@@ -27,16 +28,12 @@ router.post("/api/expense",userAuth,async(req,res)=>{
     }
 });
 
-router.get("/api/expense",userAuth,async(req,res)=>{
+router.get("/",userAuth,async(req,res)=>{
     try{
         const user = req.user;
-        const time = req.query.month;
-        const dateTime = new Date(time);
-        const year = dateTime.getFullYear()
-        const month = dateTime.getMonth()
-        const newDateStart = new Date(year, month, 0);;
-        const newDateEnd = new Date(year, month+1, 0);
-        const expense = await Expense.find({userId:user._id,date:{$gt:newDateStart,$lt:newDateEnd}});
+        const strFormat = req.query.month;
+        const dateFormat = getDates(strFormat)
+        const expense = await Expense.find({userId:user._id,date:{$gt:dateFormat[0],$lt:dateFormat[1]}});
         if(expense.length==0){
             return res.status(404).json({message:"No Expense found"});
         }
@@ -46,7 +43,7 @@ router.get("/api/expense",userAuth,async(req,res)=>{
     }
 })
 
-router.put("/api/expense/:expenseId",userAuth,async(req,res)=>{
+router.put("/:expenseId",userAuth,async(req,res)=>{
     try{
         const user = req.user;
         const expenseId = req.params.expenseId;

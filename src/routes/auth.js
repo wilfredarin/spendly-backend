@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import userAuth from "../middleware/auth.js"
 const router = express.Router();
 
-router.post("/api/auth/register",async(req,res)=>{
+router.post("/register",async(req,res)=>{
     try{
         if(!isValidUserProfileData(req)){
             throw new Error("Invalid Data");
@@ -26,7 +26,7 @@ router.post("/api/auth/register",async(req,res)=>{
 })
 
 
-router.post("/api/auth/login",async(req,res)=>{
+router.post("/login",async(req,res)=>{
     try{
         const {email,password} = req.body;
         if(!email || !password){
@@ -46,14 +46,14 @@ router.post("/api/auth/login",async(req,res)=>{
     }
 });
 
-router.get("/api/auth/profile",userAuth,async(req,res)=>{
+router.get("/profile",userAuth,async(req,res)=>{
     try{
         const user = req.user;
         res.json(user);
     }catch(err){res.status(400).json({message:"Profile not found!",error:err})}
 });
 
-router.put("/api/auth/profile",userAuth,async(req,res)=>{
+router.put("/profile",userAuth,async(req,res)=>{
     try{
         const user = req.user;
         if(!isValidUserProfileUpdate(req)){
@@ -76,7 +76,7 @@ router.put("/api/auth/profile",userAuth,async(req,res)=>{
     }
 })
 
-router.put("/api/auth/:action/tags",userAuth,async(req,res)=>{
+router.put("/:action/tags",userAuth,async(req,res)=>{
     try{
         const user= req.user;
         const action = req.params.action;

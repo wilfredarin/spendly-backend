@@ -5,7 +5,7 @@ import Expense from "../models/expense.js";
 import { getDates } from "../utils/getDates.js";
 const router = express.Router();
 
-router.get("/api/analytics/summary",userAuth,async(req,res)=>{
+router.get("/summary",userAuth,async(req,res)=>{
     try{ 
         const user = req.user;
         const strFormat = req.query.month;
@@ -49,7 +49,7 @@ router.get("/api/analytics/summary",userAuth,async(req,res)=>{
     }
 });
 
-router.get("/api/analytics/trends",userAuth,async(req,res)=>{
+router.get("/trends",userAuth,async(req,res)=>{
     try{
         const user = req.user;
         const expense = await Expense.aggregate([
